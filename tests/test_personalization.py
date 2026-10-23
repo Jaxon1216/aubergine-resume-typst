@@ -10,6 +10,44 @@ from test_template import ROOT, create_workspace, executable
 
 
 class PersonalizationTests(unittest.TestCase):
+    def test_private_inputs_are_explicit_and_cannot_replace_public_examples(self):
+        (ROOT / "tmp").mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix="private-input-", dir=ROOT / "tmp") as directory:
+            workspace = create_workspace(Path(directory) / "workspace")
+            private = workspace / "resume/private"
+            private.mkdir()
+            first = private / "content.toml"
+            second = private / "content.en.toml"
+            first.write_text('[profile]\nname = "PRIVATE_FIRST"\n', encoding="utf-8")
+            second.write_text('[profile]\nname = "PRIVATE_SECOND"\n', encoding="utf-8")
+            # 第二个文件更旧，切换内容时仍必须重编译。
+            os.utime(second, (1, 1))
+            defaults = [(workspace / path).read_bytes() for path in ("resume/content.toml", "resume/content.en.toml")]
+            for filename, marker in (("content.toml", "PRIVATE_FIRST"), ("content.en.toml", "PRIVATE_SECOND")):
+                result = subprocess.run(
+                    ["make", "CONTENT=resume/private/" + filename, "TYPST_FLAGS=--ignore-system-fonts"],
+                    cwd=workspace, text=True, capture_output=True,
+                )
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                text = subprocess.check_output([executable("pdftotext"), str(workspace / "output/pdf/personal.pdf"), "-"], text=True)
+                self.assertIn(marker, text)
+            for target in ("preview", "watch", "info", "en"):
+                result = subprocess.run(["make", "--dry-run", target, "CONTENT=resume/private/content.toml"],
+                                        cwd=workspace, text=True, capture_output=True, check=True)
+                self.assertIn("content=resume/private/content.toml", result.stdout)
+            result = subprocess.run(["make", "example", "CONTENT=resume/private/content.toml"],
+                                    cwd=workspace, text=True, capture_output=True)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("example 仅接受默认公开示例", result.stderr)
+            self.assertFalse((workspace / "docs").exists())
+            for path, expected in zip(("resume/content.toml", "resume/content.en.toml"), defaults):
+                self.assertEqual((workspace / path).read_bytes(), expected)
+            result = subprocess.run([executable("typst"), "compile", "--root", ".", "--font-path", "fonts",
+                                     "--ignore-system-fonts", "--input", "lang=en", "--input",
+                                     "content=resume/private/content.en.toml", "resume.typ", "output/direct.pdf"],
+                                    cwd=workspace, text=True, capture_output=True)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_personalized_content_and_settings_do_not_break_template_tests(self):
         (ROOT / "tmp").mkdir(exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="personalization-", dir=ROOT / "tmp") as directory:

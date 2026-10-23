@@ -6,13 +6,13 @@
 
 ## 用户填写个人简历
 
-用户明确要求用自己提供的真实资料填写个人简历时，可更新其指定的内容文件；这与维护公开虚构示例是两种工作场景。只使用用户提供或明确确认的事实，信息不足时列出待补充项，不沿用虚构示例的职责、时间或成果。
+用户明确要求用自己提供的真实资料填写个人简历时，优先在被忽略的 `resume/private/content.toml` / `content.en.toml` 中编辑；必要时先从公开示例复制。用户另有指定时遵从其文件选择；这与维护公开虚构示例是两种工作场景。只使用用户提供或明确确认的事实，信息不足时列出待补充项，不沿用虚构示例的职责、时间或成果。
 
-个人 PDF 导出到忽略的 `output/`，不覆盖 `docs/` 中的公开示例。未经用户明确要求，不提交、上传或发布含个人资料的内容文件或 PDF。中英文仅在用户要求的范围内同步，保留事实与贡献归属。
+使用 `make CONTENT=resume/private/content.toml` 或 `make en CONTENT=resume/private/content.en.toml` 显式选择个人内容，导出文件名为 `personal*.pdf`。不传 CONTENT 时仍编译公开示例。个人 PDF 导出到忽略的 `output/`，不覆盖 `docs/` 中的公开示例。未经用户明确要求，不提交、上传或发布含个人资料的内容文件或 PDF。中英文仅在用户要求的范围内同步，保留事实与贡献归属。
 
 ## 编辑入口
 
-- `resume.typ`：唯一主入口，`--input lang=en` 切换英文。
+- `resume.typ`：唯一主入口，`--input lang=en` 切换英文，`--input content=resume/private/content.toml` 选择个人文件。
 - `resume/content.toml` / `resume/content.en.toml`：中文／英文独立内容，普通文字，只支持 `**加粗**` 和 `[文字](https://地址)`。
 - `resume/settings.toml`：开源字体、页面、密度与自动适配。
 - `resume/settings.original.toml`：原版字体；用 `--input settings=resume/settings.original.toml` 选择。
@@ -46,6 +46,6 @@ make example
 
 测试需 Python 3.9+、Typst、Poppler；默认开源测试不读系统字体，原版集成测试需显式 RUN_ORIGINAL_FONT_TESTS=1。模板修改后必须渲染 PDF 并检查中文、卡片、对齐、行距与底部边界，不能以编译成功代替视觉检查。
 
-`output/`、`tmp/`、`fonts/local/` 为忽略的本地产物。`docs/` 中两种语言、两套字体的 PDF 与 PNG 都是公开虚构示例；不要用真实简历覆盖后提交。刷新示例前确认内容与 PDF 元数据、链接都适合公开。未经用户要求不要创建远端仓库或发布。
+`output/`、`tmp/`、`fonts/local/`、`resume/private/` 为忽略的本地产物。`make example` 只接受对应语言的默认公开内容路径，不接受自定义 CONTENT。`docs/` 中两种语言、两套字体的 PDF 与 PNG 都是公开虚构示例；不要用真实简历覆盖后提交。刷新示例前确认内容与 PDF 元数据、链接都适合公开。未经用户要求不要创建远端仓库或发布。
 
 源码 MIT；字体与图标保留各自许可证。新仓库提交使用公开身份与隐私邮箱，不沿用工作邮箱。

@@ -18,19 +18,23 @@ SOURCE := resume.typ
 LANG_SUFFIX := $(if $(filter en,$(RESUME_LANG)),-en,)
 FONT_SUFFIX := $(if $(filter original,$(FONT_PRESET)),-original,)
 SETTINGS := $(if $(filter original,$(FONT_PRESET)),resume/settings.original.toml,resume/settings.toml)
-PDF := output/pdf/resume$(FONT_SUFFIX)$(LANG_SUFFIX).pdf
+DEFAULT_CONTENT := $(if $(filter en,$(RESUME_LANG)),resume/content.en.toml,resume/content.toml)
+CONTENT ?= $(DEFAULT_CONTENT)
+OUTPUT_NAME := $(if $(filter $(DEFAULT_CONTENT),$(CONTENT)),resume,personal)
+PDF := output/pdf/$(OUTPUT_NAME)$(FONT_SUFFIX)$(LANG_SUFFIX).pdf
 EXAMPLE := docs/example$(FONT_SUFFIX)$(LANG_SUFFIX).pdf
 PREVIEW := docs/preview$(FONT_SUFFIX)$(LANG_SUFFIX)
-FLAGS := --root . --font-path fonts --input lang=$(RESUME_LANG) --input settings=$(SETTINGS)
+FLAGS := --root . --font-path fonts --input lang=$(RESUME_LANG) --input settings=$(SETTINGS) --input "content=$(CONTENT)"
 TYPST_FLAGS ?=
-DEPS := $(shell find resume typst fonts -type f) scripts/check_original_fonts.py
+DEPS := $(shell find resume typst fonts -type f) scripts/check_original_fonts.py $(CONTENT) $(SETTINGS)
 CHECK_FONTS := $(if $(filter original,$(FONT_PRESET)),TYPST="$(TYPST)" $(PYTHON) scripts/check_original_fonts.py --settings "$(SETTINGS)" $(filter --ignore-system-fonts,$(TYPST_FLAGS)),:)
 
-.PHONY: all pdf en original original-en preview watch info example clean test
+.PHONY: all pdf en original original-en preview watch info example check-example clean test FORCE
 all: pdf
 pdf: $(PDF)
 
-$(PDF): $(SOURCE) $(DEPS) Makefile
+# 输入路径、编译参数变化也必须生效，不能只依赖源文件修改时间。
+$(PDF): $(SOURCE) $(DEPS) Makefile FORCE
 	@mkdir -p $(dir $@)
 	@$(CHECK_FONTS)
 	$(TYPST) compile $(FLAGS) $(TYPST_FLAGS) $(SOURCE) $@
@@ -58,7 +62,10 @@ info:
 	$(TYPST) eval $(FLAGS) $(TYPST_FLAGS) --in $(SOURCE) 'query(<resume-layout>).first().value' --pretty
 
 # 公开示例均须为虚构内容；语言和字体预设通过变量选择。
-example: $(PDF)
+check-example:
+	@test "$(CONTENT)" = "$(DEFAULT_CONTENT)" || { echo 'example 仅接受默认公开示例；个人内容请用 make CONTENT=... 导出到 output/。' >&2; exit 1; }
+
+example: check-example $(PDF)
 	@mkdir -p docs
 	cp $(PDF) $(EXAMPLE)
 	$(PDFTOPPM) -f 1 -singlefile -scale-to 2200 -png $(EXAMPLE) $(PREVIEW)

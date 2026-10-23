@@ -43,7 +43,7 @@ def create_workspace(destination, include_tests=False):
     """创建无个人内容、无本地商业字体的构建副本。"""
     destination = Path(destination)
     destination.mkdir(parents=True, exist_ok=True)
-    for name in ("Makefile", "resume.typ"):
+    for name in ("Makefile", "resume.typ", ".gitignore"):
         shutil.copy2(ROOT / name, destination / name)
     for name in ("typst", "scripts", "resume/assets"):
         shutil.copytree(ROOT / name, destination / name, dirs_exist_ok=True,

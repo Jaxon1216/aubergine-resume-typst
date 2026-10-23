@@ -71,10 +71,20 @@ Linux 用户安装对应平台的 Typst、Tinymist 与 GNU Make 后，在仓库�
 
 ### 2. 填写自己的内容
 
+建议先把示例复制到被 Git 忽略的个人目录，保留公开示例：
+
+```bash
+mkdir -p resume/private
+cp resume/content.toml resume/private/content.toml
+cp resume/content.en.toml resume/private/content.en.toml
+```
+
+随后编辑 `resume/private/content.toml` 和 `resume/private/content.en.toml`。两个文件都需要用自己的事实替换示例；默认命令仍读取公开虚构示例，不会自动切换到个人内容。
+
 | 想改什么 | 编辑哪个文件 |
 | --- | --- |
-| 中文姓名、联系方式、教育、经历与项目 | [`resume/content.toml`](resume/content.toml) |
-| 英文内容 | [`resume/content.en.toml`](resume/content.en.toml) |
+| 中文个人内容 | `resume/private/content.toml`，由上一步创建 |
+| 英文个人内容 | `resume/private/content.en.toml`，由上一步创建 |
 | 开源字体、页面模式与整体松紧 | [`resume/settings.toml`](resume/settings.toml) |
 | 原版字体、页面模式与整体松紧 | [`resume/settings.original.toml`](resume/settings.original.toml) |
 
@@ -83,10 +93,14 @@ Linux 用户安装对应平台的 Typst、Tinymist 与 GNU Make 后，在仓库�
 ### 3. 预览并导出
 
 ```bash
-make preview   # 浏览器实时预览，保存内容后自动刷新
-make           # 导出中文 PDF
-make en        # 导出英文 PDF
+make preview CONTENT=resume/private/content.toml
+make CONTENT=resume/private/content.toml
+make en CONTENT=resume/private/content.en.toml
 ```
+
+个人文件导出到 `output/pdf/personal.pdf`、`personal-en.pdf`；原版字体对应 `personal-original.pdf`、`personal-original-en.pdf`。`CONTENT` 也适用于 `preview`、`watch`、`info` 和原版字体命令。
+
+不传 `CONTENT` 时，下面的命令仍导出公开虚构示例：
 
 预览进程需要保持运行，按 `Ctrl+C` 停止。浏览器预览不会自动生成 PDF；定稿后再运行导出命令，或用 `make watch` 持续更新 PDF。
 
@@ -112,6 +126,9 @@ make info RESUME_LANG=en FONT_PRESET=original
 # 中文，开源字体
 typst compile --root . --font-path fonts resume.typ output.pdf
 
+# 自己的中文内容，路径相对于仓库根目录
+typst compile --root . --font-path fonts --input content=resume/private/content.toml resume.typ output.pdf
+
 # 英文，开源字体
 typst compile --root . --font-path fonts --input lang=en resume.typ output-en.pdf
 
@@ -134,7 +151,7 @@ typst compile --root . --font-path fonts --input settings=resume/settings.origin
 ```text
 请先阅读 AGENTS.md 和 README.md，再用以下资料更新中文简历。
 
-编辑文件：resume/content.toml。
+编辑文件：resume/private/content.toml；若不存在，先从中文示例复制。
 资料：[粘贴我的教育、经历、项目和联系方式]
 求职方向：[填写目标岗位]
 
@@ -143,17 +160,17 @@ typst compile --root . --font-path fonts --input settings=resume/settings.origin
 - 缺少必要信息时列出待补充项；不要把虚构示例当成我的经历。
 - 本轮只改中文内容，保留现有字体、公司卡片和章节结构。
 - 保持长页模式，不为了压成一页擅自删内容或缩字。
-- 使用 make 导出到 output/pdf/，渲染 PDF 检查文字、对齐和底部边界。
+- 使用 make CONTENT=resume/private/content.toml 导出，渲染 PDF 检查文字、对齐和底部边界。
 - 交付修改摘要、PDF 路径和仍需补充的信息。
 - 不覆盖 docs/ 中的公开示例，不提交或上传我的个人资料。
 ```
 
-若使用原版字体，把导出命令改为 `make original`；字体缺失时应先说明缺少哪些字体。
+若使用原版字体，把导出命令改为 `make original CONTENT=resume/private/content.toml`；字体缺失时应先说明缺少哪些字体。
 
 ### 润色一段经历
 
 ```text
-请阅读 AGENTS.md，润色 resume/content.toml 中的 [公司或项目名]。
+请阅读 AGENTS.md，润色 resume/private/content.toml 中的 [公司或项目名]。
 
 目标：[例如突出活动组织与内容编辑能力，减少重复表述]
 
@@ -166,13 +183,13 @@ typst compile --root . --font-path fonts --input settings=resume/settings.origin
 ### 同步英文版
 
 ```text
-请以 resume/content.toml 中已确认的中文内容为事实来源，
-更新 resume/content.en.toml，使用自然、简洁的英文简历表达。
+请以 resume/private/content.toml 中已确认的中文内容为事实来源，
+更新 resume/private/content.en.toml，使用自然、简洁的英文简历表达。
 
 不增加中文版本没有的职责、指标或成果；日期和贡献状态保持一致。
 机构或岗位存在多个合理译法时，列出需要我确认的名称。
 保留两个独立内容文件，不修改中文事实。
-使用 make en 导出，检查英文标题、换行、链接和卡片是否溢出。
+使用 make en CONTENT=resume/private/content.en.toml 导出，检查英文标题、换行、链接和卡片是否溢出。
 ```
 
 ### 调整篇幅与排版
@@ -189,7 +206,7 @@ typst compile --root . --font-path fonts --input settings=resume/settings.origin
 修改模板后运行 make test，并渲染 PDF 检查最终效果。
 ```
 
-Agent 修改后的检查重点是：事实是否准确、重点是否清楚、中英文是否一致，以及 PDF 是否存在缺字、异常换行或边界溢出。日常个人导出放在被忽略的 `output/`；`docs/` 用于仓库的公开虚构示例。
+Agent 修改后的检查重点是：事实是否准确、重点是否清楚、中英文是否一致，以及 PDF 是否存在缺字、异常换行或边界溢出。个人内容放在被忽略的 `resume/private/`，日常个人导出放在被忽略的 `output/`；`docs/` 用于仓库的公开虚构示例。
 
 ## 填写内容
 
@@ -374,7 +391,7 @@ make example FONT_PRESET=original
 make example RESUME_LANG=en FONT_PRESET=original
 ```
 
-命令会更新 `docs/` 中对应的 PDF 和 PNG。修改文字徽标后，用 `python3 scripts/generate_badges.py` 重新生成。`make clean` 只删除日常 `output/` 导出，不删除公开示例。
+命令会更新 `docs/` 中对应的 PDF 和 PNG；`example` 拒绝自定义 `CONTENT`，防止把个人导出复制进公开文档。公开内容文件本身仍需人工确认适合发布。修改文字徽标后，用 `python3 scripts/generate_badges.py` 重新生成。`make clean` 只删除日常 `output/` 导出，不删除公开示例。
 
 </details>
 
@@ -382,8 +399,9 @@ make example RESUME_LANG=en FONT_PRESET=original
 
 ```text
 resume.typ                    唯一主入口
-resume/content.toml           中文内容
-resume/content.en.toml        英文内容
+resume/content.toml           中文公开示例
+resume/content.en.toml        英文公开示例
+resume/private/               个人内容，忽略提交
 resume/settings.toml          开源字体与页面配置
 resume/settings.original.toml 原版字体与页面配置
 resume/assets/                图标与自制文字徽标

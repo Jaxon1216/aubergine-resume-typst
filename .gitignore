@@ -12,6 +12,7 @@ node_modules/
 *~
 # 自行准备的字体与本地配置不进入模板仓库。
 fonts/local/
+resume/private/
 .env
 .env.*
 
