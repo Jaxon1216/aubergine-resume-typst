@@ -10,16 +10,20 @@ The layout includes lightly tinted company cards, education badges, separate pro
 
 ## Preview
 
-These screenshots use the **original font preset**, which requires your own fonts. Click an image for the full preview or open the PDF to inspect selectable text and links.
+The **English sample in the original font preset** is shown first. Click the image for the full preview, or open the PDF to inspect selectable text and links. This font preset requires your own fonts to rebuild. The default compilation language remains Chinese.
 
-<table>
-  <tr><th width="50%">Chinese · Original fonts</th><th width="50%">English · Original fonts</th></tr>
-  <tr>
-    <td valign="top"><a href="docs/preview-original.png"><img src="docs/preview-original.png" alt="Chinese fictional resume with company cards and education badges" width="100%"></a></td>
-    <td valign="top"><a href="docs/preview-original-en.png"><img src="docs/preview-original-en.png" alt="English fictional resume with company cards and projects" width="100%"></a></td>
-  </tr>
-  <tr><td align="center"><a href="docs/example-original.pdf">Chinese PDF</a></td><td align="center"><a href="docs/example-original-en.pdf">English PDF</a></td></tr>
-</table>
+<a href="docs/preview-original-en.png"><img src="docs/preview-original-en.png" alt="English fictional resume with company cards, education badges and projects" width="780"></a>
+
+[English PDF](docs/example-original-en.pdf) · [Chinese PDF](docs/example-original.pdf)
+
+<details>
+<summary>View the Chinese sample · Original fonts</summary>
+
+<a href="docs/preview-original.png"><img src="docs/preview-original.png" alt="Chinese fictional resume with company cards and education badges" width="780"></a>
+
+[Chinese PDF](docs/example-original.pdf)
+
+</details>
 
 The default build uses the **bundled open-source fonts** and needs no commercial fonts.
 

@@ -10,26 +10,20 @@
 
 ## 样式预览
 
-下面是**原版字体**的中文与英文示例。点击截图查看大图，或打开对应 PDF 查看文字与链接。
+默认展示**英文示例 · 原版字体**。点击截图查看大图，或打开 PDF 检查文字与链接；中文预览见下方折叠区。编译默认语言仍为中文。
 
-<table>
-  <tr>
-    <th width="50%">中文 · 原版字体</th>
-    <th width="50%">English · Original fonts</th>
-  </tr>
-  <tr>
-    <td valign="top">
-      <a href="docs/preview-original.png"><img src="docs/preview-original.png" alt="中文简历完整截图：教育标签、三种公司卡片、项目与论文排版" width="100%"></a>
-    </td>
-    <td valign="top">
-      <a href="docs/preview-original-en.png"><img src="docs/preview-original-en.png" alt="English resume screenshot with education, experience cards, projects and publications" width="100%"></a>
-    </td>
-  </tr>
-  <tr>
-    <td align="center"><a href="docs/example-original.pdf">查看中文 PDF</a></td>
-    <td align="center"><a href="docs/example-original-en.pdf">View English PDF</a></td>
-  </tr>
-</table>
+<a href="docs/preview-original-en.png"><img src="docs/preview-original-en.png" alt="English fictional resume with company cards, education badges and projects" width="780"></a>
+
+[查看英文 PDF](docs/example-original-en.pdf) · [查看中文 PDF](docs/example-original.pdf)
+
+<details>
+<summary>查看中文示例 · 原版字体</summary>
+
+<a href="docs/preview-original.png"><img src="docs/preview-original.png" alt="中文简历完整截图：教育标签、三种公司卡片、项目与论文排版" width="780"></a>
+
+[查看中文 PDF](docs/example-original.pdf)
+
+</details>
 
 默认编译使用随仓库提供的**开源字体**，无需准备商业字体。原版字体预设需要自行提供字体，两者的字体搭配见[页面与字体](#页面与字体)。
 
