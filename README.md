@@ -346,6 +346,8 @@ make TYPST_FLAGS=--ignore-system-fonts
 
 ## 开发与维护
 
+每次 push 和 Pull Request 都会运行 [Template checks](https://github.com/auberginewly/aubergine-resume-typst/actions/workflows/test.yml)：校验随附字体、执行隔离测试，并在不读取系统字体的 Linux 环境中编译中英文示例。CI 使用 Typst 0.15.1，不需要商业字体。
+
 测试需要 Python 3.9+、Typst，以及 Poppler 的 `pdfinfo`、`pdffonts`、`pdftotext`；刷新截图还需 `pdftoppm`。macOS 可运行 `brew install poppler`。
 
 ```bash
