@@ -1,0 +1,48 @@
+# 固定的合成测试数据；不读取用户填写的内容。
+skills = ["**Language Alpha**：第一条测试内容。", "**工具**：第二条测试内容。", "**方法**：第三条测试内容。"]
+[profile]
+name = "排版测试"
+phone = "+8600000000000"
+phone-display = "000-0000-0000"
+email = "hello@example.com"
+github = "https://example.com/github"
+github-name = "sample"
+website = "https://example.com"
+[[education]]
+school = "测试学校"
+date = "20XX — 20XX"
+tags = ["测试", "BA"]
+detail = "测试专业"
+[[experience]]
+title = "测试机构 Alpha"
+detail = "测试岗位"
+department = "测试部门"
+date = "20XX.XX — 20XX.XX"
+logo = "chii.svg"
+tone = "warm"
+url = "https://example.com/work"
+summary = ["**机构简介**：固定测试数据。"]
+bullets = ["**工作内容**：第一项测试产出。"]
+[[experience.projects]]
+title = "项目 Alpha"
+summary = ["**项目介绍**：第一组内容。"]
+bullets = ["**产出 Alpha**：第一组产出。"]
+[[experience.projects]]
+title = "项目 Beta"
+summary = ["**项目介绍**：第二组内容。"]
+bullets = ["**产出 Beta**：第二组产出。"]
+[[open-source]]
+title = "Example Source｜开源测试"
+repository = "https://example.com/source"
+stars = 2345
+summary = ["**项目介绍**：开源条目。"]
+bullets = ["**贡献**：已提交，尚未合并。"]
+[[projects]]
+title = "Example Project｜个人测试"
+repository = "https://example.com/project"
+summary = ["**项目介绍**：个人条目。"]
+bullets = ["**产出**：参考 [说明](https://example.com/guide)。"]
+[[publications]]
+title = "Example Paper"
+detail = "虚构课程练习"
+summary = ["论文模块的固定测试文字。"]

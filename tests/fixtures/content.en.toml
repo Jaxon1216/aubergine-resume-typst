@@ -1,0 +1,48 @@
+# Fixed synthetic fixture, independent of editable resume content.
+skills = ["**Language Alpha**: First fixture paragraph.", "**Tools**: Second fixture paragraph.", "**Methods**: Third fixture paragraph."]
+[profile]
+name = "Layout Test"
+phone = "+8600000000000"
+phone-display = "000-0000-0000"
+email = "hello@example.com"
+github = "https://example.com/github"
+github-name = "sample"
+website = "https://example.com"
+[[education]]
+school = "Fixture College"
+date = "20XX - 20XX"
+tags = ["Test", "BA"]
+detail = "Fixture Studies"
+[[experience]]
+title = "Fixture Organization Alpha"
+detail = "Sample Role"
+department = "Sample Team"
+date = "20XX.XX - 20XX.XX"
+logo = "chii.svg"
+tone = "warm"
+url = "https://example.com/work"
+summary = ["**Organization**: Fixed sample content."]
+bullets = ["**Work**: A fictional contribution."]
+[[experience.projects]]
+title = "Project Alpha"
+summary = ["**Project**: First project."]
+bullets = ["**Output Alpha**: First result."]
+[[experience.projects]]
+title = "Project Beta"
+summary = ["**Project**: Second project."]
+bullets = ["**Output Beta**: Second result."]
+[[open-source]]
+title = "Example Source | Fixture"
+repository = "https://example.com/source"
+stars = 2345
+summary = ["**Project**: An open-source fixture."]
+bullets = ["**Contribution**: Submitted, not yet merged."]
+[[projects]]
+title = "Example Project | Fixture"
+repository = "https://example.com/project"
+summary = ["**Project**: A personal project fixture."]
+bullets = ["**Output**: See the [guide](https://example.com/guide)."]
+[[publications]]
+title = "Example Paper"
+detail = "Fictional coursework"
+summary = ["A fixed paragraph for the publications section."]

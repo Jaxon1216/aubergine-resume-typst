@@ -1,0 +1,116 @@
+# Entirely fictional, non-technical sample. No real candidate's career is represented.
+# Chiikawa names are a placeholder theme, with no official affiliation.
+# Dates, achievements and star counts are illustrative only.
+skills = [
+  "**Event Planning**: Organize themes, visitor routes and on-site roles; write clear participation guides.",
+  "**Content Editing**: Prepare notices, event recaps and handbook entries with consistent wording and hierarchy.",
+  "**Visual Communication**: Draw simple maps and posters; create visitor cards, table signs and supply labels.",
+]
+
+[profile]
+name = "Chiikawa (Fictional Sample)"
+phone = "+8600000000000"
+phone-display = "000-0000-0000"
+email = "hello@example.com"
+github = "https://example.com/github"
+github-name = "your-name"
+website = "https://example.com"
+website-label = "example.com"
+
+[[education]]
+school = "Little Town College"
+date = "20XX - 20XX"
+tags = ["Fictional", "BA"]
+detail = "Event Planning and Visual Communication"
+
+[[experience]]
+title = "Chiikawa Community Club (Fictional)"
+detail = "Event Planning Intern"
+department = "Neighborhood Events"
+logo = "chii.svg"
+tone = "warm"
+date = "20XX.XX - 20XX.XX"
+url = "https://example.com/town/festival"
+link-label = "Sample work"
+summary = [
+  "**Organization**: A fictional club that hosts seasonal markets and neighborhood gatherings.",
+  "**Sample role**: Gather stall requirements, plan visitor routes and prepare signs and participation guides.",
+]
+bullets = [
+  "**Ramen Festival Route**: Arrange entry, voucher collection, dining and rest areas in a visitor-friendly sequence. Create a hand-drawn guide with landmark descriptions and directions for first-time guests.",
+  "**Event Materials**: Group table signs, menus and stamp cards by use, with setup and collection checklists. Prepare an indoor alternative for wet weather and combine the materials into an illustrative planning handbook.",
+]
+
+[[experience]]
+title = "Hachiware Studio (Fictional)"
+detail = "Editorial Intern"
+department = "Neighborhood Publications"
+logo = "hachi.svg"
+tone = "cool"
+date = "20XX.XX - 20XX.XX"
+url = "https://example.com/town/stories"
+link-label = "Sample work"
+
+[[experience.projects]]
+title = "Meadow Concert | Event Special"
+summary = [
+  "**Project**: An editorial special featuring a fictional outdoor concert, its program and a venue guide.",
+  "**Sample role**: Plan sections, draft interview prompts, edit program notes and review the print layout.",
+]
+bullets = [
+  "**Sections and Interviews**: Organize performance stories, instrument introductions and audience notes. Use short interview prompts to develop fictional source material into a consistent set of sample articles.",
+  "**Layout and Proofreading**: Standardize location names, program order and punctuation; check captions and page numbers. Present the program and venue map separately to make information easy to find.",
+]
+
+[[experience.projects]]
+title = "Town Walks | Seasonal Route Guide"
+summary = [
+  "**Project**: A hand-drawn booklet introducing imaginary gardens, bakeries and quiet resting spots.",
+  "**Sample role**: Plan routes, create location cards and prepare walking suggestions for different weather.",
+]
+bullets = [
+  "**Route Planning**: Arrange stops around slow walks, family outings and rainy-day visits. Use landmarks and simple directions, with a consistent opening note for each route.",
+  "**Location Cards**: Summarize highlights, rest suggestions and useful items on small cards. Add symbols for covered areas and drinking water to complete a set of fictional guide pages.",
+]
+
+[[experience]]
+title = "Usagi Supply Stop (Fictional)"
+detail = "Supplies Assistant"
+department = "Festival Preparation"
+logo = "usa.svg"
+tone = "neutral"
+date = "20XX.XX - 20XX.XX"
+summary = [
+  "**Sample role**: Create category labels for lanterns, picnic cloths and decorations; prepare a lending register and post-event care notes.",
+]
+
+[[open-source]]
+title = "Town Atlas | Open Resource Handbook"
+repository = "https://example.com/town/atlas"
+# Illustrative formatting only; this is not a real repository or contribution record.
+stars = 2345
+summary = [
+  "**Project**: A fictional open-content repository of neighborhood symbols, hand-drawn objects and event signs.",
+]
+bullets = [
+  "**Resource Index**: Group entries by location, festival and everyday objects, with usage notes and search terms for each illustration. Sample status: contribution accepted.",
+  "**Symbol Guide**: Add written explanations and examples for navigation markers, and organize submission guidelines. Sample status: PR submitted, not yet merged.",
+]
+
+[[projects]]
+title = "Ramen Flavor Map | Illustrated Pocket Guide"
+repository = "https://example.com/town/ramen-map"
+summary = [
+  "**Project**: A portable, hand-drawn guide to imaginary ramen shops in a fictional town.",
+]
+bullets = [
+  "**Information Design**: Arrange broth, toppings and suggested combinations into consistent cards. Describe flavors in short captions and write a distinct story for each imaginary shop.",
+  "**Foldout Layout**: Place content in route order and leave space beside the map for handwritten notes. The [project notes](https://example.com/town/guide) demonstrate an inline link.",
+]
+
+[[publications]]
+title = "Color Palettes in Small-Town Festival Graphics (Fictional Paper)"
+detail = "Coursework sample | No actual publication"
+summary = [
+  "Use imaginary lantern-festival posters to explore color combinations and information hierarchy, documenting the design process and reading observations. This entry demonstrates the publications layout only.",
+]

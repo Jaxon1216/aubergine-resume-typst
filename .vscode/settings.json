@@ -1,0 +1,12 @@
+{
+  "tinymist.rootPath": "${workspaceFolder}",
+  "tinymist.fontPaths": ["${workspaceFolder}/fonts"],
+  "tinymist.previewFeature": "enable",
+  "tinymist.exportPdf": "never",
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 500,
+  "files.exclude": {
+    "**/.superpowers": true,
+    "tmp": true
+  }
+}

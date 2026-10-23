@@ -1,0 +1,13 @@
+# 与原版简历一致的字体预设。字体文件由使用者自行准备，不随仓库分发。
+# 用 make original 导出，make preview FONT_PRESET=original 实时预览。
+page-mode = "continuous"
+density = 1.00
+auto-fit = false
+min-density = 0.90
+
+[fonts]
+body = ["TeX Gyre Termes", "Adobe Song Std"]
+heading = ["TeX Gyre Termes", "Adobe Heiti Std"]
+contact = ["Helvetica Neue", "Adobe Heiti Std"]
+# Adobe 宋体无独立粗体，教育标签中文沿用原版描边加重。
+tag-han-stroke = 0.32

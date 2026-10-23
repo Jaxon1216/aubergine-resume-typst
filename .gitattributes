@@ -1,0 +1,10 @@
+* text=auto eol=lf
+
+# 不让 Git 把 PDF 的前部文本误判为可逐行合并的源码。
+*.pdf binary
+*.png binary
+*.otf binary
+*.ttf binary
+
+# 保留上游许可证与字体说明的原始内容和换行。
+fonts/*/*.txt -text -whitespace

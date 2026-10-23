@@ -1,0 +1,13 @@
+# Fixed fixture settings, independent of user-editable configuration.
+# continuous 固定 A4 宽度、高度自然增长；single 限制为一页 A4。
+page-mode = "continuous"
+density = 1.00
+auto-fit = false
+min-density = 0.90
+
+# 字体按顺序查找。修改为自己安装的字体即可，不需要改模板。
+# 原样随仓库提供必要字重及许可证；不依赖 macOS 系统字体。
+[fonts]
+body = ["TeX Gyre Termes", "Source Han Serif"]
+heading = ["TeX Gyre Termes", "Source Han Sans"]
+contact = ["Inter", "Source Han Sans"]

@@ -1,0 +1,19 @@
+.DS_Store
+output/
+tmp/
+__pycache__/
+*.pyc
+.claude/
+.superpowers/
+.idea/
+node_modules/
+*.swp
+*.swo
+*~
+# 自行准备的字体与本地配置不进入模板仓库。
+fonts/local/
+.env
+.env.*
+
+# 直接运行 README 中的 Typst 命令时，根目录导出也不提交。
+/*.pdf
