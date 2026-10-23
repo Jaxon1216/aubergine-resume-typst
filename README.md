@@ -59,7 +59,18 @@
 
 ## 快速开始
 
-### 1. 准备工具
+### 1. 获取模板
+
+点击仓库右上角 **Use this template → Create a new repository**，创建自己的仓库；用于个人简历时可以选择 Private。也可以[下载 ZIP](https://github.com/auberginewly/aubergine-resume-typst/archive/refs/heads/main.zip) 后解压，或直接克隆：
+
+```bash
+git clone https://github.com/auberginewly/aubergine-resume-typst.git
+cd aubergine-resume-typst
+```
+
+后面的命令都在仓库根目录执行。
+
+### 2. 准备工具
 
 开源字体版导出需要 [Typst](https://github.com/typst/typst/releases) 和 GNU Make。原版字体版还需 Python 3 运行字体检查脚本，实时预览另需 [Tinymist](https://github.com/Myriad-Dreamin/tinymist/releases)。macOS 可使用 Homebrew：
 
@@ -69,7 +80,19 @@ brew install typst tinymist
 
 Linux 用户安装对应平台的 Typst、Tinymist 与 GNU Make 后，在仓库根目录运行下面的命令。Makefile 使用 `find`、`cp`、`mkdir`、`rm` 等 POSIX 命令；Windows 用户需要在提供这些命令的环境中运行 Make，也可使用下方的原生 Typst 命令直接编译。
 
-### 2. 填写自己的内容
+安装后，可使用 Python 3.9+ 运行环境检查；若系统没有 Python，可在 macOS 上执行 `brew install python`：
+
+```bash
+make doctor                                      # 检查导出工具、当前字体与字体校验值
+make doctor DOCTOR_FLAGS=--preview               # 另外要求 Tinymist
+make doctor DOCTOR_FLAGS=--tests                 # 另外要求测试所需 Poppler
+make doctor FONT_PRESET=original                 # 检查原版字体设置
+make doctor TYPST_FLAGS=--ignore-system-fonts     # 排除系统字体后检查
+```
+
+缺少导出必需工具或当前字体时会报错并返回非零退出码；默认只提示未安装的预览、测试工具。原生 Windows 用户也可直接运行 `python scripts/doctor.py`，导出仍可使用下方的原生 Typst 命令。
+
+### 3. 填写自己的内容
 
 建议先把示例复制到被 Git 忽略的个人目录，保留公开示例：
 
@@ -90,7 +113,7 @@ cp resume/content.en.toml resume/private/content.en.toml
 
 中英文内容分别维护。切换语言会切换内容文件、章节标题与 PDF 文档标题，不会自动翻译你填写的文字。
 
-### 3. 预览并导出
+### 4. 预览并导出
 
 ```bash
 make preview CONTENT=resume/private/content.toml
@@ -408,7 +431,7 @@ resume/assets/                图标与自制文字徽标
 typst/template.typ            排版、内容测量与语言切换
 fonts/                        开源字体、许可证与校验值
 docs/                         公开虚构示例 PDF 与截图
-scripts/                      字体检查与徽标生成
+scripts/                      环境检查、字体检查与徽标生成
 tests/                        模板行为与个人填写流程测试
 tests/fixtures/               独立的合成测试内容与设置
 output/                       日常导出，忽略提交

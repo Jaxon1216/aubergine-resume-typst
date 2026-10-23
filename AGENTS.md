@@ -38,11 +38,14 @@ make en
 make original
 make original-en
 make info
+make doctor
 make test
 make example
 ```
 
 测试使用 `tests/fixtures/` 的固定合成数据，与用户内容及 settings 文件独立。不要为了通过测试补回用户删除的章节，也不要求中英文条目数量相同。`make test` 同时验证干净临时副本中的个人填写流程。
+
+首次使用先运行 `make doctor`；预览和测试可分别加 `DOCTOR_FLAGS=--preview`、`DOCTOR_FLAGS=--tests`。doctor 读取当前字体设置，缺少必需依赖时必须失败，不把可选工具缺失当成导出失败。
 
 测试需 Python 3.9+、Typst、Poppler；默认开源测试不读系统字体，原版集成测试需显式 RUN_ORIGINAL_FONT_TESTS=1。模板修改后必须渲染 PDF 并检查中文、卡片、对齐、行距与底部边界，不能以编译成功代替视觉检查。
 

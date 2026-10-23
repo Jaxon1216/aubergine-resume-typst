@@ -26,10 +26,11 @@ EXAMPLE := docs/example$(FONT_SUFFIX)$(LANG_SUFFIX).pdf
 PREVIEW := docs/preview$(FONT_SUFFIX)$(LANG_SUFFIX)
 FLAGS := --root . --font-path fonts --input lang=$(RESUME_LANG) --input settings=$(SETTINGS) --input "content=$(CONTENT)"
 TYPST_FLAGS ?=
+DOCTOR_FLAGS ?=
 DEPS := $(shell find resume typst fonts -type f) scripts/check_original_fonts.py $(CONTENT) $(SETTINGS)
 CHECK_FONTS := $(if $(filter original,$(FONT_PRESET)),TYPST="$(TYPST)" $(PYTHON) scripts/check_original_fonts.py --settings "$(SETTINGS)" $(filter --ignore-system-fonts,$(TYPST_FLAGS)),:)
 
-.PHONY: all pdf en original original-en preview watch info example check-example clean test FORCE
+.PHONY: all pdf en original original-en preview watch info doctor example check-example clean test FORCE
 all: pdf
 pdf: $(PDF)
 
@@ -61,6 +62,9 @@ info:
 	@$(CHECK_FONTS)
 	$(TYPST) eval $(FLAGS) $(TYPST_FLAGS) --in $(SOURCE) 'query(<resume-layout>).first().value' --pretty
 
+doctor:
+	TYPST="$(TYPST)" TINYMIST="$(TINYMIST)" $(PYTHON) scripts/doctor.py --settings "$(SETTINGS)" $(filter --ignore-system-fonts,$(TYPST_FLAGS)) $(DOCTOR_FLAGS)
+
 # 公开示例均须为虚构内容；语言和字体预设通过变量选择。
 check-example:
 	@test "$(CONTENT)" = "$(DEFAULT_CONTENT)" || { echo 'example 仅接受默认公开示例；个人内容请用 make CONTENT=... 导出到 output/。' >&2; exit 1; }
@@ -76,3 +80,4 @@ clean:
 test:
 	$(PYTHON) tests/test_template.py
 	$(PYTHON) tests/test_personalization.py
+	$(PYTHON) tests/test_doctor.py

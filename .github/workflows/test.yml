@@ -38,6 +38,8 @@ jobs:
       - name: Verify bundled fonts
         working-directory: fonts
         run: sha256sum --check SHA256SUMS
+      - name: Check export and test environment
+        run: make doctor DOCTOR_FLAGS=--tests TYPST_FLAGS=--ignore-system-fonts
       - name: Run isolated template and personalization tests
         run: make test
       - name: Build both public examples without system fonts
