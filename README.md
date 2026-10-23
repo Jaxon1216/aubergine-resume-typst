@@ -1,5 +1,7 @@
 # aubergine-resume-typst
 
+**简体中文** · [English](README.en.md)
+
 一份把内容和排版分开的中英文 Typst 简历模板。用 TOML 填写经历，也可以交给 Agent 协助编辑，再通过同一个入口预览、导出。
 
 保留浅底公司卡片、教育标签、独立项目和可点击链接。支持固定 A4 宽度的长页，以及可选的一页 A4 模式；提供开源字体与原版字体两套预设。
@@ -57,6 +59,8 @@
 
 所有截图均为虚构的活动策划与内容编辑示例，时间使用 `20XX` 占位，Star 数量仅展示格式。Chiikawa 角色名作为填空主题；「吉／哈／乌」为自制文字徽标，不含官方角色图片，本项目与相关权利方无关联。
 
+也可从 [Releases](https://github.com/auberginewly/aubergine-resume-typst/releases) 下载示例 PDF 与截图；版本变化见 [更新记录](CHANGELOG.md)。
+
 ## 快速开始
 
 ### 1. 获取模板
@@ -72,13 +76,13 @@ cd aubergine-resume-typst
 
 ### 2. 准备工具
 
-开源字体版导出需要 [Typst](https://github.com/typst/typst/releases) 和 GNU Make。原版字体版还需 Python 3 运行字体检查脚本，实时预览另需 [Tinymist](https://github.com/Myriad-Dreamin/tinymist/releases)。macOS 可使用 Homebrew：
+开源字体版导出需要 [Typst](https://github.com/typst/typst/releases) 和 GNU Make。原版字体版还需 Python 3.9+ 运行字体检查脚本，实时预览另需 [Tinymist](https://github.com/Myriad-Dreamin/tinymist/releases)。macOS 可使用 Homebrew：
 
 ```bash
 brew install typst tinymist
 ```
 
-Linux 用户安装对应平台的 Typst、Tinymist 与 GNU Make 后，在仓库根目录运行下面的命令。Makefile 使用 `find`、`cp`、`mkdir`、`rm` 等 POSIX 命令；Windows 用户需要在提供这些命令的环境中运行 Make，也可使用下方的原生 Typst 命令直接编译。
+Linux 用户安装对应平台的 Typst、Tinymist 与 GNU Make 后，在仓库根目录运行下面的命令。Makefile 使用 `cp`、`mkdir`、`rm` 等 POSIX 命令；Windows 用户需要在提供这些命令的环境中运行 Make，也可使用下方的原生 Typst 命令直接编译。
 
 安装后，可使用 Python 3.9+ 运行环境检查；若系统没有 Python，可在 macOS 上执行 `brew install python`：
 
@@ -111,7 +115,7 @@ cp resume/content.en.toml resume/private/content.en.toml
 | 开源字体、页面模式与整体松紧 | [`resume/settings.toml`](resume/settings.toml) |
 | 原版字体、页面模式与整体松紧 | [`resume/settings.original.toml`](resume/settings.original.toml) |
 
-中英文内容分别维护。切换语言会切换内容文件、章节标题与 PDF 文档标题，不会自动翻译你填写的文字。
+中英文内容分别维护。切换语言会切换章节标题与 PDF 文档标题，不会自动翻译文字。不传 `CONTENT` 时会同时选择对应语言的公开示例；使用个人文件时，需要显式指定对应的 `CONTENT` 路径。
 
 ### 4. 预览并导出
 
@@ -123,9 +127,9 @@ make en CONTENT=resume/private/content.en.toml
 
 个人文件导出到 `output/pdf/personal.pdf`、`personal-en.pdf`；原版字体对应 `personal-original.pdf`、`personal-original-en.pdf`。`CONTENT` 也适用于 `preview`、`watch`、`info` 和原版字体命令。
 
-不传 `CONTENT` 时，下面的命令仍导出公开虚构示例：
+预览进程需要保持运行，按 `Ctrl+C` 停止。浏览器预览不会自动生成 PDF；定稿后再运行导出命令，或用 `make watch CONTENT=resume/private/content.toml` 持续更新个人 PDF。
 
-预览进程需要保持运行，按 `Ctrl+C` 停止。浏览器预览不会自动生成 PDF；定稿后再运行导出命令，或用 `make watch` 持续更新 PDF。
+不传 `CONTENT` 时，下面的命令仍导出公开虚构示例：
 
 | 字体预设 | 中文导出 | 英文导出 | 输出位置 |
 | --- | --- | --- | --- |
@@ -200,7 +204,7 @@ typst compile --root . --font-path fonts --input settings=resume/settings.origin
 保持职责范围、时间、成果和贡献归属不变，用“问题／工作内容、方法、结果”
 组织描述。没有数据的地方不要补数字。先检查已有内容能支持哪些表述；
 如果需要更多事实，请列出具体问题。其他经历、字体和排版保持原样。
-完成后编译并检查 PDF。
+完成后使用 make CONTENT=resume/private/content.toml 编译并检查 PDF。
 ```
 
 ### 同步英文版
@@ -218,7 +222,7 @@ typst compile --root . --font-path fonts --input settings=resume/settings.origin
 ### 调整篇幅与排版
 
 ```text
-请先阅读 AGENTS.md，检查当前中文简历的排版。
+请先阅读 AGENTS.md，检查 resume/private/content.toml 的排版。
 
 本轮目标：[例如正文略微收紧／切换为一页 A4／调整公司卡片]
 使用字体：[开源／原版]
@@ -226,6 +230,7 @@ typst compile --root . --font-path fonts --input settings=resume/settings.origin
 优先修改对应的 settings 文件，只有目标涉及视觉结构时才改模板。
 如果需要一页，先评估内容是否能在 density=1.00、min-density=0.90 下容纳；
 放不下时指出需要精简的段落及理由，不继续缩小字号，也不裁剪内容。
+导出时显式使用 CONTENT=resume/private/content.toml。
 修改模板后运行 make test，并渲染 PDF 检查最终效果。
 ```
 
@@ -278,7 +283,7 @@ make check CONTENT=resume/private/content.toml   # 个人内容
 - `website-label` 不填时去掉协议与首尾斜线。
 - 章节条目为空或未填写时，章节标题自动隐藏。
 
-教育的 `tags` 是可选数组，学校、标签、专业和学历同排，日期右对齐。完整字段可直接参考两份虚构示例。
+教育的 `tags` 是可选数组，学校、标签、专业和学历同排，日期右对齐。完整字段可参考[中文公开示例](resume/content.toml)和[英文公开示例](resume/content.en.toml)。
 
 ### 公司卡片与多个项目
 
