@@ -20,10 +20,12 @@ class PersonalizationTests(unittest.TestCase):
             second = private / "content.en.toml"
             first.write_text('[profile]\nname = "PRIVATE_FIRST"\n', encoding="utf-8")
             second.write_text('[profile]\nname = "PRIVATE_SECOND"\n', encoding="utf-8")
+            (private / "content with spaces.toml").write_text('[profile]\nname = "PRIVATE_SPACES"\n', encoding="utf-8")
             # 第二个文件更旧，切换内容时仍必须重编译。
             os.utime(second, (1, 1))
             defaults = [(workspace / path).read_bytes() for path in ("resume/content.toml", "resume/content.en.toml")]
-            for filename, marker in (("content.toml", "PRIVATE_FIRST"), ("content.en.toml", "PRIVATE_SECOND")):
+            for filename, marker in (("content.toml", "PRIVATE_FIRST"), ("content.en.toml", "PRIVATE_SECOND"),
+                                     ("content with spaces.toml", "PRIVATE_SPACES")):
                 result = subprocess.run(
                     ["make", "CONTENT=resume/private/" + filename, "TYPST_FLAGS=--ignore-system-fonts"],
                     cwd=workspace, text=True, capture_output=True,

@@ -1,4 +1,5 @@
 // 数据驱动的中文简历模板。内容只解析加粗与 HTTP(S) 行内链接，不执行代码。
+#import "validate.typ": validate-content
 #let default-fonts = (
   body: ("TeX Gyre Termes", "Source Han Serif"),
   heading: ("TeX Gyre Termes", "Source Han Sans"),
@@ -258,6 +259,7 @@
 }
 
 #let resume(data, settings) = {
+  validate-content(data)
   let language = sys.inputs.at("lang", default: "zh")
   assert(language in ("zh", "en"), message: "lang 可选 zh 或 en。")
   let density = float(sys.inputs.at("density", default: str(settings.density)))

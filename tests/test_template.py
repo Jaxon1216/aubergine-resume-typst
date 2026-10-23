@@ -227,6 +227,33 @@ class TemplateTests(unittest.TestCase):
         pdf, _ = self.compile(source)
         self.assertEqual(self.extract(pdf).strip(), "仅姓名")
 
+    def test_content_errors_identify_field_paths(self):
+        invalid = (
+            ('(:)', '缺少 [profile]'),
+            ('(profile: "invalid",)', 'profile 必须是 TOML 表'),
+            ('(profile: (:),)', 'profile.name 缺少必填字段'),
+            ('(profile: (name: "  "),)', 'profile.name 不能为空'),
+            ('(profile: (name: "Fixture", phone: 123),)', 'profile.phone 必须是字符串'),
+            ('data + (skils: (),)', 'skils 是未知字段'),
+            ('data + (skills: "invalid",)', 'skills 必须是字符串数组'),
+            ('data + (skills: (1,),)', 'skills[1] 必须是字符串'),
+            ('data + (experience: (title: "invalid"),)', 'experience 必须是条目数组'),
+            ('data + (experience: ((),),)', 'experience[1] 必须是 TOML 表'),
+            ('data + (experience: ((title: "First"), (:)))', 'experience[2].title 缺少必填字段'),
+            ('data + (experience: ((title: "Fixture", tone: "pink"),))', 'experience[1].tone 只能填写'),
+            ('data + (experience: ((title: "Fixture", projects: ((summary: (),),)),))', 'experience[1].projects[1].title'),
+            ('data + (projects: ((title: "Fixture", stars: "4k"),))', 'projects[1].stars 必须是不小于 0 的整数'),
+            ('data + (projects: ((title: "Fixture", stars: -1),))', 'projects[1].stars 必须是不小于 0 的整数'),
+            ('data + (education: ((school: "Fixture", date: "20XX", detail: "Degree", tags: (1,)),))', 'education[1].tags[1]'),
+            ('data + (publications: ((title: "Fixture",),))', 'publications[1].detail 缺少必填字段'),
+            ('data + (projects: ((title: "Fixture", summmary: ()),))', 'projects[1].summmary 是未知字段'),
+        )
+        for index, (content, message) in enumerate(invalid):
+            with self.subTest(message=message):
+                _, result = self.compile(self.fixture("invalid-content-" + str(index), content), success=False)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(message, result.stderr)
+
     def test_partial_contacts_and_label_fallbacks(self):
         profiles = (
             ('(name: "邮箱测试", email: "mail@example.com", phone: "  ",)', "mail@example.com", ("GitHub", "tel:")),
@@ -403,6 +430,22 @@ class BuildBoundaryTests(unittest.TestCase):
                                     text=True, capture_output=True)
             self.assertNotEqual(result.returncode, 0, selector + " 应明确报错")
             self.assertIn(selector.split("=")[0], result.stderr)
+
+    def test_check_validates_selected_content_without_exporting(self):
+        selected = self.workspace / "resume/private"
+        selected.mkdir(exist_ok=True)
+        content = selected / "check.toml"
+        content.write_text('[profile]\nname = "Check Fixture"\n[[experience]]\n', encoding="utf-8")
+        before = list((self.workspace / "output").rglob("*.pdf"))
+        command = ["make", "check", "CONTENT=resume/private/check.toml", "TYPST=" + self.typst]
+        result = subprocess.run(command, cwd=self.workspace, text=True, capture_output=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("experience[1].title 缺少必填字段", result.stderr)
+        content.write_text('[profile]\nname = "Check Fixture"\n', encoding="utf-8")
+        result = subprocess.run(command, cwd=self.workspace, text=True, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("内容字段检查通过", result.stdout)
+        self.assertEqual(list((self.workspace / "output").rglob("*.pdf")), before)
 
     def test_original_preflight_reads_custom_fonts(self):
         settings = self.workspace / "resume/settings.original.toml"

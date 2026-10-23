@@ -245,6 +245,30 @@ bullets = [
 
 `summary` 的每项是一段正文，`bullets` 的每项是一条圆点描述。双引号写成 `\"`；多行字符串可使用 TOML 三引号。顶层 `skills` 必须放在 `[profile]` 等表声明之前。
 
+### 内容字段检查
+
+编译、实时预览和导出会共用同一份字段校验。只想检查 TOML 内容而不生成 PDF，可以运行：
+
+```bash
+make check                                      # 中文公开示例
+make check RESUME_LANG=en                        # 英文公开示例
+make check CONTENT=resume/private/content.toml   # 个人内容
+```
+
+字段错误会指出从 1 开始的条目位置，例如 `experience[2].title 缺少必填字段`；`tone` 拼写错误、数字联系方式、非数组的段落、错误的 Stars 类型和未知字段也会明确报错。TOML 语法错误则由 Typst 指向文件及行号。
+
+| 内容 | 字段约定 |
+| --- | --- |
+| `[profile]` | `name` 为非空字符串；其他联系方式为可选字符串 |
+| 顶层 `skills`，条目的 `summary` / `bullets`，教育 `tags` | 字符串数组，可为空或省略 |
+| `[[education]]` | `school`、`detail`、`date` 为必填非空字符串 |
+| `[[experience]]`、`[[open-source]]`、`[[projects]]` 及嵌套项目 | `title` 为必填非空字符串；其他文字字段为可选字符串 |
+| `[[publications]]` | `title`、`detail` 为必填非空字符串 |
+| `tone` | `warm` / `cool` / `neutral` |
+| `stars` | 不小于 0 的整数，例如 `stars = 2345`，不写 `"2.3k"` |
+
+校验只判断字段和类型，不判断事实真伪，也不判断内容能否放进一页；布局仍需编译并查看 PDF。字段名区分大小写，不支持的字段会提示检查拼写。
+
 ### 联系方式与章节
 
 `[profile]` 中只有 `name` 必填。电话、邮箱、GitHub、网站可逐项省略或留空，对应图标和间距会自动隐藏；全部省略时只显示姓名。
@@ -429,6 +453,7 @@ resume/settings.toml          开源字体与页面配置
 resume/settings.original.toml 原版字体与页面配置
 resume/assets/                图标与自制文字徽标
 typst/template.typ            排版、内容测量与语言切换
+typst/validate.typ            内容字段校验
 fonts/                        开源字体、许可证与校验值
 docs/                         公开虚构示例 PDF 与截图
 scripts/                      环境检查、字体检查与徽标生成

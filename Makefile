@@ -24,18 +24,17 @@ OUTPUT_NAME := $(if $(filter $(DEFAULT_CONTENT),$(CONTENT)),resume,personal)
 PDF := output/pdf/$(OUTPUT_NAME)$(FONT_SUFFIX)$(LANG_SUFFIX).pdf
 EXAMPLE := docs/example$(FONT_SUFFIX)$(LANG_SUFFIX).pdf
 PREVIEW := docs/preview$(FONT_SUFFIX)$(LANG_SUFFIX)
-FLAGS := --root . --font-path fonts --input lang=$(RESUME_LANG) --input settings=$(SETTINGS) --input "content=$(CONTENT)"
+FLAGS := --root . --font-path fonts --input lang=$(RESUME_LANG) --input "settings=$(SETTINGS)" --input "content=$(CONTENT)"
 TYPST_FLAGS ?=
 DOCTOR_FLAGS ?=
-DEPS := $(shell find resume typst fonts -type f) scripts/check_original_fonts.py $(CONTENT) $(SETTINGS)
 CHECK_FONTS := $(if $(filter original,$(FONT_PRESET)),TYPST="$(TYPST)" $(PYTHON) scripts/check_original_fonts.py --settings "$(SETTINGS)" $(filter --ignore-system-fonts,$(TYPST_FLAGS)),:)
 
-.PHONY: all pdf en original original-en preview watch info doctor example check-example clean test FORCE
+.PHONY: all pdf en original original-en preview watch info check doctor example check-example clean test FORCE
 all: pdf
 pdf: $(PDF)
 
 # 输入路径、编译参数变化也必须生效，不能只依赖源文件修改时间。
-$(PDF): $(SOURCE) $(DEPS) Makefile FORCE
+$(PDF): $(SOURCE) Makefile FORCE
 	@mkdir -p $(dir $@)
 	@$(CHECK_FONTS)
 	$(TYPST) compile $(FLAGS) $(TYPST_FLAGS) $(SOURCE) $@
@@ -64,6 +63,9 @@ info:
 
 doctor:
 	TYPST="$(TYPST)" TINYMIST="$(TINYMIST)" $(PYTHON) scripts/doctor.py --settings "$(SETTINGS)" $(filter --ignore-system-fonts,$(TYPST_FLAGS)) $(DOCTOR_FLAGS)
+
+check:
+	$(TYPST) eval $(FLAGS) $(TYPST_FLAGS) '{ import "/typst/validate.typ": validate-content; validate-content(toml(sys.inputs.at("content"))); "内容字段检查通过。" }'
 
 # 公开示例均须为虚构内容；语言和字体预设通过变量选择。
 check-example:

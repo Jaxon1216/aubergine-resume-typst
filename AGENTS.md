@@ -28,6 +28,8 @@
 
 默认思源宋体正文、思源黑体标题与加粗、TeX Gyre Termes 英文、Inter 联系方式。设置的字体家族名以 `typst fonts --font-path fonts` 输出为准。开源预设须在关闭系统字体后无警告编译。原版预设使用 Adobe 宋体／黑体与 Helvetica Neue，仅从忽略的 fonts/local/ 或系统读取，禁止提交商业字体。原版标签中文沿用 0.32pt 描边加重，联系方式为 Helvetica Neue Medium、蓝色、9.4pt。
 
+内容校验集中在 `typst/validate.typ`，编译、预览及 `make check CONTENT=...` 共用；报错必须指出字段路径和条目位置。新增内容字段时同步更新校验、模板和文档，不通过删除用户条目来绕过错误。
+
 联系方式可全部省略；空章节隐藏。保留教育标签、链接、Stars 格式化与内容不执行 Typst 代码的边界。
 
 ## 验证与导出
@@ -38,6 +40,7 @@ make en
 make original
 make original-en
 make info
+make check
 make doctor
 make test
 make example
